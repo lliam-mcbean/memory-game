@@ -111,17 +111,24 @@ game.appendChild(grid);
 
 gameGrid.forEach(item => {
 
+    // Create card element with the name dataset
     const card = document.createElement('div')
-
     card.classList.add('card')
-
     card.dataset.name = item.name
 
-    card.style.backgroundImage = `url(${item.img})`
+    // Create front of card
+    const front = document.createElement('div')
+    front.classList.add('front')
 
+    // Create back of card, which contains
+    const back = document.createElement('div')
+    back.classList.add('back')
+    back.style.backgroundImage = `url(${item.img})`
+
+    // Append card to grid, and front and back to each card
     grid.appendChild(card)
-
-    gameGrid.sort(() => 0.5 - Math.random());
+    card.appendChild(front)
+    card.appendChild(back)
 
 });
 
@@ -135,23 +142,24 @@ grid.addEventListener('click', function(event) {
       } else if (count < 2) {
         count++
         if (count === 1) {
-          // Assign first guess
-          firstGuess = clicked.dataset.name
-          clicked.classList.add('selected')
+            // Assign first guess
+            firstGuess = clicked.parentNode.dataset.name
+            console.log(firstGuess)
+            clicked.parentNode.classList.add('selected')
         } else {
-          // Assign second guess
-          secondGuess = clicked.dataset.name
-          clicked.classList.add('selected')
+            // Assign second guess
+            secondGuess = clicked.parentNode.dataset.name
+            console.log(secondGuess)
+            clicked.parentNode.classList.add('selected')
         }
         // If both guesses are not empty...
         if (firstGuess !== '' && secondGuess !== '') {
           // and the first guess matches the second match...
           if (firstGuess === secondGuess) {
-            // run the match function
-            match()
-            resetGuesses();
+            setTimeout(match, delay)
+            setTimeout(resetGuesses, delay)
           } else {
-              resetGuesses();
+            setTimeout(resetGuesses, delay)
           }
         }
         // Set previous target to clicked
